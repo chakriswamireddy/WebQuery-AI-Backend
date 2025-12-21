@@ -7,7 +7,7 @@ if (!process.env.DATABASE_URL) {
 }
 
 const pool = new Pool({
-  connectionString: process.env.DATABASE_URL || "postgresql://postgres:IidODxtUPLDMZbAJtTgODTCXbRqOvBPr@postgres.railway.internal:5432/railway",
+  connectionString: process.env.DATABASE_URL ,
   ssl: process.env.NODE_ENV === "production"
     ? { rejectUnauthorized: false }
     : false,
