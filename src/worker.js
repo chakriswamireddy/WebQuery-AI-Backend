@@ -4,10 +4,9 @@ import IORedis from "ioredis";
 import { scrapeWebsite } from "./config/scrapper.js";
 import { askAI } from "./config/ai.js";
 import { tasks } from "./models/scrapSchema.js";
+import { redisConnection } from "./config/queue.js";
  
-
-const connection = new IORedis(process.env.REDIS_URL); 
-
+ 
 new Worker(
   "tasks",
   async (job) => {
@@ -27,5 +26,5 @@ new Worker(
       })
       .where(eq(tasks.id, taskId));
   },
-  { connection }
+  {connection:  redisConnection }
 );

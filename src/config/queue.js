@@ -2,8 +2,15 @@
 import { Queue } from "bullmq";
 import IORedis from "ioredis";
 
-export const connection = new IORedis(process.env.REDIS_URL, {
+
+if (!process.env.REDIS_URL) {
+    throw new Error("REDIS_URL is not set");
+}
+
+export const redisConnection = new IORedis(process.env.REDIS_URL, {
     maxRetriesPerRequest: null,
   });
 
-export const taskQueue = new Queue("tasks", { connection });
+  export const taskQueue = new Queue("tasks", {
+    connection: redisConnection,
+  });
