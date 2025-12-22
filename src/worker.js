@@ -1,6 +1,6 @@
  
 import { Worker } from "bullmq";
-import IORedis from "ioredis";
+
 import { scrapeWebsite } from "./config/scrapper.js";
 import { askAI } from "./config/ai.js";
 import { tasks } from "./models/scrapSchema.js";
