@@ -28,7 +28,7 @@ new Worker(
     console.log("Scrape done, calling AI");
     const answer = await askAI(content, question);
 
-    console.log("Updating status to completed");
+    console.log("Updating status to completed",answer);
     await db.update(tasks)
       .set({ status: "completed", answer })
       .where(eq(tasks.id, taskId));
