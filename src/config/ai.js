@@ -18,5 +18,7 @@ export async function askAI(content, question) {
     }
   );
 
+  console.log("api response : ", response)
+
   return response.data.choices[0].message.content;
 }
