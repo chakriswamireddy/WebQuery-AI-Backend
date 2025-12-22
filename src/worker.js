@@ -5,6 +5,8 @@ import { scrapeWebsite } from "./config/scrapper.js";
 import { askAI } from "./config/ai.js";
 import { tasks } from "./models/scrapSchema.js";
 import { redisConnection } from "./config/queue.js";
+import { db } from "./config/db.js";
+import { eq } from "drizzle-orm";
  
  
 new Worker(

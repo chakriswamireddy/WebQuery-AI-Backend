@@ -1,6 +1,6 @@
- 
+
 import express from "express";
- 
+
 import { taskQueue } from "../config/queue.js";
 import { db } from "../config/db.js";
 import { tasks } from "../models/scrapSchema.js";
@@ -23,7 +23,11 @@ taskRouter.post("/", async (req, res) => {
     taskId: task.id,
     url,
     question
-  });
+  },
+    {
+      removeOnComplete: false,
+      removeOnFail: false,
+    });
 
   res.json(task);
 });
