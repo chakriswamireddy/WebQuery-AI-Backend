@@ -27,4 +27,4 @@ jobs:
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
           REDIS_URL: ${{ secrets.REDIS_URL }}
-        run: node worker.js
+        run: node src/worker.js
