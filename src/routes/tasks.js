@@ -32,47 +32,33 @@ taskRouter.post("/", async (req, res) => {
 });
 
 
-taskRouter.get("/:taskId/stream", async (req, res) => {
-  const { taskId } = req.params
-
-  res.setHeader("Content-Type", "text/event-stream")
-  res.setHeader("Cache-Control", "no-cache")
-  res.setHeader("Connection", "keep-alive")
-  res.flushHeaders()
-
-  let closed = false
-
-  req.on("close", () => {
-    closed = true
-  })
-
-  const interval = setInterval(async () => {
-    if (closed) {
-      clearInterval(interval)
-      return
-    }
+taskRouter.get("/:taskId", async (req, res) => {
+  try {
+    const { taskId } = req.params;
 
     const result = await db.query(
       "SELECT status, answer FROM tasks WHERE id = $1",
       [taskId]
-    )
+    );
 
-    if (result.rows.length === 0) return
-
-    const task = result.rows[0]
-
-    res.write(
-      `data: ${JSON.stringify({
-        status: task.status,
-        answer: task.answer
-      })}\n\n`
-    )
-
-    if (task.status === "completed" || task.status === "failed") {
-      clearInterval(interval)
-      res.end()
+    if (result.rows.length === 0) {
+      return res.status(404).json({
+        error: "Task not found"
+      });
     }
-  }, 2000)
-})
+
+    const task = result.rows[0];
+
+    return res.json({
+      status: task.status,
+      answer: task.answer
+    });
+  } catch (err) {
+    console.error("Error fetching task", err);
+    res.status(500).json({
+      error: "Internal server error"
+    });
+  }
+});
 
 export default taskRouter;
