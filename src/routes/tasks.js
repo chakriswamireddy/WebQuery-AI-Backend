@@ -39,13 +39,13 @@ taskRouter.get("/:taskId", async (req, res) => {
 
     const result = await db.select().from(tasks).where(eq(tasks.id, taskId ))
 
-    if (result.rows.length === 0) {
+    if (  result.length === 0) {
       return res.status(404).json({
         error: "Task not found"
       });
     }
 
-    const task = result.rows[0];
+    const task = result[0];
 
     return res.json({
       status: task.status,
