@@ -13,6 +13,7 @@
   "license": "ISC",
   "type": "module",
   "dependencies": {
+    "@aws-sdk/client-sqs": "^3.999.0",
     "axios": "^1.13.2",
     "bullmq": "^5.66.2",
     "cors": "^2.8.5",
