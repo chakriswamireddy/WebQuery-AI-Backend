@@ -5,6 +5,7 @@ import express from "express";
 import { db } from "../config/db.js";
 import { tasks } from "../models/scrapSchema.js";
 import { enqueueScrapeJob } from "../aws/queue-setup.js";
+import { eq } from "drizzle-orm";
 
 const taskRouter = express.Router();
 
@@ -36,10 +37,7 @@ taskRouter.get("/:taskId", async (req, res) => {
   try {
     const { taskId } = req.params;
 
-    const result = await db.query(
-      "SELECT status, answer FROM tasks WHERE id = $1",
-      [taskId]
-    );
+    const result = await db.select().from(tasks).where(eq(tasks.id, taskId ))
 
     if (result.rows.length === 0) {
       return res.status(404).json({
